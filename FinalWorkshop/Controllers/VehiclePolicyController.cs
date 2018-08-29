@@ -1,0 +1,175 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using FinalWorkshop.Context;
+using FinalWorkshop.Models;
+
+namespace FinalWorkshop.Controllers
+{
+    public class VehiclePolicyController : Controller
+    {
+        private readonly EFCContext _context;
+
+        public VehiclePolicyController(EFCContext context)
+        {
+            _context = context;
+        }
+
+        // GET: VehiclePolicy
+        public async Task<IActionResult> Index()
+        {
+            var eFCContext = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle);
+            return View(await eFCContext.ToListAsync());
+        }
+	    public async Task<IActionResult> SpecificPolicy(int id)
+	    {
+		    var eFCContext = _context.VehiclePolicies.Where(v => v.VehiclePolicyVehicle.ID == id);
+		    return View(await eFCContext.ToListAsync());
+	    }
+	    public async Task<IActionResult> SpecificPolicyFromCustomerId(int id)
+	    {
+		    var eFCContext = _context.VehiclePolicies.Where(v => v.CustomerModelID == id);
+		    return View(await eFCContext.ToListAsync());
+	    }
+
+		// GET: VehiclePolicy/Details/5
+		public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehiclePolicyModel = await _context.VehiclePolicies
+                .Include(v => v.VehiclePolicyVehicle)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (vehiclePolicyModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(vehiclePolicyModel);
+        }
+
+        // GET: VehiclePolicy/Create
+        public IActionResult Create()
+        {
+            ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID");
+	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID");
+            return View();
+        }
+
+        // POST: VehiclePolicy/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ID,Risk,StartTime,EndTime,VehicleModelID,CustomerModelID")] VehiclePolicyModel vehiclePolicyModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(vehiclePolicyModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID", vehiclePolicyModel.VehicleModelID);
+	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID", vehiclePolicyModel.CustomerModelID);
+			return View(vehiclePolicyModel);
+        }
+
+        // GET: VehiclePolicy/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehiclePolicyModel = await _context.VehiclePolicies.FindAsync(id);
+            if (vehiclePolicyModel == null)
+            {
+                return NotFound();
+            }
+	        
+			ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID", vehiclePolicyModel.VehicleModelID);
+	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID");
+			return View(vehiclePolicyModel);
+        }
+
+        // POST: VehiclePolicy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Risk,StartTime,EndTime,VehicleModelID,CustomerModelID")] VehiclePolicyModel vehiclePolicyModel)
+        {
+            if (id != vehiclePolicyModel.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(vehiclePolicyModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VehiclePolicyModelExists(vehiclePolicyModel.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID", vehiclePolicyModel.VehicleModelID);
+	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID", vehiclePolicyModel.CustomerModelID);
+			return View(vehiclePolicyModel);
+        }
+
+        // GET: VehiclePolicy/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehiclePolicyModel = await _context.VehiclePolicies
+                .Include(v => v.VehiclePolicyVehicle)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (vehiclePolicyModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(vehiclePolicyModel);
+        }
+
+        // POST: VehiclePolicy/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var vehiclePolicyModel = await _context.VehiclePolicies.FindAsync(id);
+            _context.VehiclePolicies.Remove(vehiclePolicyModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool VehiclePolicyModelExists(int id)
+        {
+            return _context.VehiclePolicies.Any(e => e.ID == id);
+        }
+    }
+}

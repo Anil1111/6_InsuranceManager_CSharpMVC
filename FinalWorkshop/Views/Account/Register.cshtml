@@ -1,0 +1,7 @@
+﻿@model FinalWorkshop.ViewModels.RegisterViewModel
+
+<form method="POST">
+    @Html.EditorForModel()
+    <input type="submit" value="Register" />
+    <div asp-validation-summary="All"></div>
+</form>

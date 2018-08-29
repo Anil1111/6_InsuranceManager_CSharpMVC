@@ -1,0 +1,49 @@
+﻿@model IEnumerable<FinalWorkshop.Models.CustomerModel>
+
+@{
+    ViewData["Title"] = "All Customers";
+}
+
+<h2>All Customers</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Company Name
+            </th>
+            <th>
+                Date Added
+            </th>
+            <th>
+                Last Updated
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdded)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateUpdate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-controller="VehiclePolicy" asp-action="SpecificPolicyFromCustomerId" asp-route-id="@item.ID">Policies</a> |
+                <a asp-controller="Vehicle" asp-action="SpecificVehicle" asp-route-id="@item.ID">Vehicles</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

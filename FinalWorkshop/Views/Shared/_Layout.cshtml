@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="/_style.css" rel="stylesheet" type="text/css" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+    <ul>
+
+        <li><a href="/Main/Index">Main</a></li>
+        <li><a href="/Customer/Index">Customers</a></li>
+        <li><a href="/Vehicle/Index">Vehicles</a></li>
+        <li><a href="/VehiclePolicy/Index">Vehicle Policies</a></li>
+        <li style="float: right"><a href="/Account/Logout">[@User.Identity.Name] Logout</a></li>
+    </ul>
+    }
+    @RenderBody()
+</body>
+</html>
