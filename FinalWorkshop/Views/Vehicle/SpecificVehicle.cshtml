@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RegistrationNumber)
+                Registration Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CarBrand)
+                Brand
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CarModel)
+                Model
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerVehicle)
+                Customer
             </th>
             <th></th>
         </tr>
@@ -53,7 +53,6 @@
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-controller="VehiclePolicy" asp-action="SpecificPolicy" asp-route-id="@item.ID">Policies</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-
             </td>
         </tr>
 }

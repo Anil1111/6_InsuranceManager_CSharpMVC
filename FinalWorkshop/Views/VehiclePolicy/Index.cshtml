@@ -1,10 +1,11 @@
-﻿@model IEnumerable<FinalWorkshop.Models.VehiclePolicyModel>
+﻿@using FinalWorkshop.Models
+@model IEnumerable<FinalWorkshop.Models.VehiclePolicyModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>All Policies</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,19 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Risk)
+                @Html.ActionLink("Insurance Type", "Index", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartTime)
+                @Html.ActionLink("Start Date", "Index", new { sortOrder = ViewBag.DateSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndTime)
+                @Html.ActionLink("End Date", "Index", new { sortOrder = ViewBag.DateSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VehiclePolicyVehicle)
+                Vehicle
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerVehiclePolicy)
+                Customer
             </th>
             <th></th>
         </tr>
@@ -44,12 +45,11 @@
                     @Html.DisplayFor(modelItem => item.EndTime)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.ID)
+                    @Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(model => item.CustomerModelID)
+                    @Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)
                 </td>
-                    
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.ID">Details</a> |

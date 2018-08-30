@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FinalWorkshop.Context;
 using FinalWorkshop.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FinalWorkshop.Controllers
 {
@@ -18,14 +20,44 @@ namespace FinalWorkshop.Controllers
 		{
 			_context = context;
 		}
+		//[HttpGet]
+		//public async Task<IActionResult> Index()
+		//{
+		//	return View(await _context.Customers.ToListAsync());
+		//}
 
-		// GET: Customer
-		public async Task<IActionResult> Index()
+		// TESTY Sortowania!
+		public async Task<IActionResult> Index(string sortOrder)
 		{
-			return View(await _context.Customers.ToListAsync());
+			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+			var students = _context.Customers.ToAsyncEnumerable();
+			switch (sortOrder)
+			{
+				case "name_desc":
+					students = students.OrderByDescending(s => s.CompanyName);
+					break;
+				case "Date":
+					students = students.OrderBy(s => s.DateAdded);
+					break;
+				case "date_desc":
+					students = students.OrderByDescending(s => s.DateAdded);
+					break;
+				default:
+					students = students.OrderBy(s => s.CompanyName);
+					break;
+			}
+			return View(await students.ToList());
+		}
+		// TESTY Sortowania!
+
+		[HttpPost]
+		public async Task<IActionResult> Index(string companyName, int? id)
+		{
+			var searchedCustomers = await _context.Customers.Where(x => x.CompanyName == companyName).ToListAsync();
+			return View(searchedCustomers);
 		}
 
-		// GET: Customer/Details/5
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null)
@@ -43,15 +75,11 @@ namespace FinalWorkshop.Controllers
 			return View(customerModel);
 		}
 
-		// GET: Customer/Create
 		public IActionResult Create()
 		{
 			return View();
 		}
 
-		// POST: Customer/Create
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("ID,CompanyName,DateAdded")] CustomerModel customerModel)
@@ -65,7 +93,6 @@ namespace FinalWorkshop.Controllers
 			return View(customerModel);
 		}
 
-		// GET: Customer/Edit/5
 		public async Task<IActionResult> Edit(int? id)
 		{
 			if (id == null)
@@ -81,9 +108,6 @@ namespace FinalWorkshop.Controllers
 			return View(customerModel);
 		}
 
-		// POST: Customer/Edit/5
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,DateAdded,DateUpdate")] CustomerModel customerModel)
@@ -116,7 +140,6 @@ namespace FinalWorkshop.Controllers
 			return View(customerModel);
 		}
 
-		// GET: Customer/Delete/5
 		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id == null)
@@ -134,15 +157,23 @@ namespace FinalWorkshop.Controllers
 			return View(customerModel);
 		}
 
-		// POST: Customer/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
-			var customerModel = await _context.Customers.FindAsync(id);
+			try
+			{
+				var customerModel = await _context.Customers.FindAsync(id);
 			_context.Customers.Remove(customerModel);
-			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index));
+	
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception e)
+			{
+				TempData["1"] = "Nie można usunąć klienta. Musisz usunąć wcześniej pojazdy/polisy do niego przypisane";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
 		private bool CustomerModelExists(int id)

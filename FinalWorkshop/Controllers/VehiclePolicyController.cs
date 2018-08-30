@@ -19,13 +19,35 @@ namespace FinalWorkshop.Controllers
             _context = context;
         }
 
-        // GET: VehiclePolicy
-        public async Task<IActionResult> Index()
-        {
-            var eFCContext = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle);
-            return View(await eFCContext.ToListAsync());
-        }
-	    public async Task<IActionResult> SpecificPolicy(int id)
+		// GET: VehiclePolicy
+		//public async Task<IActionResult> Index()
+		//{
+		//    var eFCContext = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle).Include(x=> x.CustomerVehiclePolicy);
+		//    return View(await eFCContext.ToListAsync());
+		//}
+		public async Task<IActionResult> Index(string sortOrder)
+		{
+			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+			var students = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle).Include(x => x.CustomerVehiclePolicy).ToAsyncEnumerable();
+			switch (sortOrder)
+			{
+				case "name_desc":
+					students = students.OrderByDescending(s => s.Risk);
+					break;
+				case "Date":
+					students = students.OrderBy(s => s.StartTime);
+					break;
+				case "date_desc":
+					students = students.OrderByDescending(s => s.StartTime);
+					break;
+				default:
+					students = students.OrderBy(s => s.EndTime);
+					break;
+			}
+			return View(await students.ToList());
+		}
+		public async Task<IActionResult> SpecificPolicy(int id)
 	    {
 		    var eFCContext = _context.VehiclePolicies.Where(v => v.VehiclePolicyVehicle.ID == id);
 		    return View(await eFCContext.ToListAsync());
@@ -58,8 +80,8 @@ namespace FinalWorkshop.Controllers
         // GET: VehiclePolicy/Create
         public IActionResult Create()
         {
-            ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID");
-	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID");
+            ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "RegistrationNumber");
+	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "CompanyName");
             return View();
         }
 
@@ -95,8 +117,8 @@ namespace FinalWorkshop.Controllers
                 return NotFound();
             }
 	        
-			ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID", vehiclePolicyModel.VehicleModelID);
-	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID");
+			ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "RegistrationNumber", vehiclePolicyModel.VehicleModelID);
+	        ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "CompanyName");
 			return View(vehiclePolicyModel);
         }
 

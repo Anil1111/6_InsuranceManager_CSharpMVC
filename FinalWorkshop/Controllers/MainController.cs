@@ -11,7 +11,6 @@ namespace FinalWorkshop.Controllers
 {
 	public class MainController : Controller
 	{
-		// GET: Customer
 		public IActionResult Index()
 		{
 			return View();

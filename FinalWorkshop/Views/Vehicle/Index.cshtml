@@ -5,7 +5,11 @@
 }
 
 <h2>All Vehicles</h2>
-
+<p>Search Vehicle:</p>
+<form asp-action="Index" method="post">
+    <input type="text" name="regNumber" value="" placeholder="REGNR" />
+    <input type="submit" value="Szukaj" />
+</form>
 <p>
     <a asp-action="Create">Add New</a>
 </p>
@@ -13,19 +17,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RegistrationNumber)
+                Registration Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CarBrand)
+                Brand
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CarModel)
+                Model
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerModelID)
+                Customer
             </th>
             <th></th>
         </tr>

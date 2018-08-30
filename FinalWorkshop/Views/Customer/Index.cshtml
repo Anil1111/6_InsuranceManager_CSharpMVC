@@ -5,7 +5,14 @@
 }
 
 <h2>All Customers</h2>
-
+<div>
+    <p>Search Customer:</p>
+    <form asp-action="Index" method="post">
+        <input type="text" name="companyName" value="" />
+        <input type="submit" value="Szukaj" />
+    </form>
+</div>
+@TempData["1"]
 <p>
     <a asp-action="Create">Add New</a>
 </p>
@@ -13,13 +20,13 @@
     <thead>
         <tr>
             <th>
-                Company Name
+                @Html.ActionLink("Company Name", "Index", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
-                Date Added
+                @Html.ActionLink("Date Added", "Index", new { sortOrder = ViewBag.DateSortParm })
             </th>
             <th>
-                Last Updated
+                @Html.ActionLink("Last Updated", "Index", new { sortOrder = ViewBag.DateSortParm })
             </th>
             <th></th>
         </tr>

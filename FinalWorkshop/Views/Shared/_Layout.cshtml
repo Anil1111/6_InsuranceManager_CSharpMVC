@@ -12,11 +12,11 @@
     {
     <ul>
 
-        <li><a href="/Main/Index">Main</a></li>
-        <li><a href="/Customer/Index">Customers</a></li>
-        <li><a href="/Vehicle/Index">Vehicles</a></li>
-        <li><a href="/VehiclePolicy/Index">Vehicle Policies</a></li>
-        <li style="float: right"><a href="/Account/Logout">[@User.Identity.Name] Logout</a></li>
+        <li><a asp-controller="Main" asp-action="Index">Main</a></li>
+        <li><a asp-controller="Customer" asp-action="Index">Customers</a></li>
+        <li><a asp-controller="Vehicle" asp-action="Index">Vehicles</a></li>
+        <li><a asp-controller="VehiclePolicy" asp-action="Index">Vehicle Policies</a></li>
+        <li style="float: right"><a asp-controller="Account" asp-action="Logout">[@User.Identity.Name] Logout</a></li>
     </ul>
     }
     @RenderBody()

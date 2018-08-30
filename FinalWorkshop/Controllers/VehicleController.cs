@@ -19,19 +19,23 @@ namespace FinalWorkshop.Controllers
 			_context = context;
 		}
 
-		// GET: Vehicle
 		public async Task<IActionResult> Index()
 		{
 			var eFCContext = _context.Vehicles.Include(v => v.CustomerVehicle);
 			return View(await eFCContext.ToListAsync());
+		}
+		[HttpPost]
+		public async Task<IActionResult> Index(string regNumber)
+		{
+			var searchedVehicle = await _context.Vehicles.Include(x=> x.CustomerVehicle).Where(x => x.RegistrationNumber == regNumber).ToListAsync();
+			return View(searchedVehicle);
 		}
 		public async Task<IActionResult> SpecificVehicle(int id)
 		{
 			var eFCContext = _context.Vehicles.Where(x => x.CustomerVehicle.ID == id);
 			return View(await eFCContext.ToListAsync());
 		}
-
-		// GET: Vehicle/Details/5
+		
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null)
@@ -50,19 +54,16 @@ namespace FinalWorkshop.Controllers
 			return View(vehicleModel);
 		}
 
-		// GET: Vehicle/Create
 		public IActionResult Create()
 		{
 			ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "CompanyName");
 			return View();
 		}
 
-		// POST: Vehicle/Create
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("ID,RegistrationNumber,Type,CarBrand,CarModel,EngineCapacity,MaxLoad,MaxWeight,CustomerModelID")] VehicleModel vehicleModel)
+		public async Task<IActionResult> Create([Bind("ID,RegistrationNumber,Type,CarBrand,CarModel,CustomerModelID")] VehicleModel vehicleModel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -91,9 +92,6 @@ namespace FinalWorkshop.Controllers
 			return View(vehicleModel);
 		}
 
-		// POST: Vehicle/Edit/5
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(int id, [Bind("ID,RegistrationNumber,Type,CarBrand,CarModel,EngineCapacity,MaxLoad,MaxWeight,CustomerModelID")] VehicleModel vehicleModel)
@@ -127,7 +125,6 @@ namespace FinalWorkshop.Controllers
 			return View(vehicleModel);
 		}
 
-		// GET: Vehicle/Delete/5
 		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id == null)
@@ -146,15 +143,22 @@ namespace FinalWorkshop.Controllers
 			return View(vehicleModel);
 		}
 
-		// POST: Vehicle/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
-			var vehicleModel = await _context.Vehicles.FindAsync(id);
-			_context.Vehicles.Remove(vehicleModel);
-			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index));
+			try
+			{
+				var vehicleModel = await _context.Vehicles.FindAsync(id);
+				_context.Vehicles.Remove(vehicleModel);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception e)
+			{
+				TempData["1"] = "Nie można usunąć Pojazdu. Musisz usunąć wcześniej polisy do niego przypisane";
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
 		private bool VehicleModelExists(int id)
