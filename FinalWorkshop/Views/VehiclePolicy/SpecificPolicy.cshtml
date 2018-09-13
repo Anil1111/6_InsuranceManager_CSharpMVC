@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Specific Policy</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -47,7 +47,17 @@
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
+            <td>                @using (Html.BeginForm ("File",  
+                                    "VehiclePolicy",  
+                                    FormMethod.Post,  
+                                    new { enctype = "multipart/form-data" }))  
+                                {                    
+                                    <label for="file">Upload Policy Scan</label>  
+                                    <input type="file" name="file" id="file"/> 
+                                    <input type="submit" value="Upload"/>  
+                                }</td>
         </tr>
 }
     </tbody>
 </table>
+<a asp-action="Index">Back to List</a>

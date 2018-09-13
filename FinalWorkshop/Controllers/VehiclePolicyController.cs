@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -25,27 +26,28 @@ namespace FinalWorkshop.Controllers
 		//    var eFCContext = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle).Include(x=> x.CustomerVehiclePolicy);
 		//    return View(await eFCContext.ToListAsync());
 		//}
+		
 		public async Task<IActionResult> Index(string sortOrder)
 		{
 			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-			var students = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle).Include(x => x.CustomerVehiclePolicy).ToAsyncEnumerable();
+			var policies = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle).Include(x => x.CustomerVehiclePolicy).ToAsyncEnumerable();
 			switch (sortOrder)
 			{
 				case "name_desc":
-					students = students.OrderByDescending(s => s.Risk);
+					policies = policies.OrderByDescending(s => s.Risk);
 					break;
 				case "Date":
-					students = students.OrderBy(s => s.StartTime);
+					policies = policies.OrderBy(s => s.StartTime);
 					break;
 				case "date_desc":
-					students = students.OrderByDescending(s => s.StartTime);
+					policies = policies.OrderByDescending(s => s.StartTime);
 					break;
 				default:
-					students = students.OrderBy(s => s.EndTime);
+					policies = policies.OrderBy(s => s.EndTime);
 					break;
 			}
-			return View(await students.ToList());
+			return View(await policies.ToList());
 		}
 		public async Task<IActionResult> SpecificPolicy(int id)
 	    {
