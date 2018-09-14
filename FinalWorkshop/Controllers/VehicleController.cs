@@ -32,7 +32,7 @@ namespace FinalWorkshop.Controllers
 		}
 		public async Task<IActionResult> SpecificVehicle(int id)
 		{
-			var eFCContext = _context.Vehicles.Where(x => x.CustomerVehicle.ID == id);
+			var eFCContext = _context.Vehicles.Where(x => x.CustomerVehicle.ID == id).Include(v => v.CustomerVehicle);
 			return View(await eFCContext.ToListAsync());
 		}
 		

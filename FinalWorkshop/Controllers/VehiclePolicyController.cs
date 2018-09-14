@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -50,13 +49,13 @@ namespace FinalWorkshop.Controllers
 			return View(await policies.ToList());
 		}
 		public async Task<IActionResult> SpecificPolicy(int id)
-	    {
-		    var eFCContext = _context.VehiclePolicies.Where(v => v.VehiclePolicyVehicle.ID == id);
+		{
+			var eFCContext = _context.VehiclePolicies.Where(v => v.VehiclePolicyVehicle.ID == id);
 		    return View(await eFCContext.ToListAsync());
 	    }
 	    public async Task<IActionResult> SpecificPolicyFromCustomerId(int id)
 	    {
-		    var eFCContext = _context.VehiclePolicies.Where(v => v.CustomerModelID == id);
+		    var eFCContext = _context.VehiclePolicies.Where(v => v.CustomerModelID == id).Include(v => v.VehiclePolicyVehicle).Include(x => x.CustomerVehiclePolicy);
 		    return View(await eFCContext.ToListAsync());
 	    }
 
