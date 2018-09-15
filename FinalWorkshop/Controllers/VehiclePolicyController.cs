@@ -19,13 +19,6 @@ namespace FinalWorkshop.Controllers
             _context = context;
         }
 
-		// GET: VehiclePolicy
-		//public async Task<IActionResult> Index()
-		//{
-		//    var eFCContext = _context.VehiclePolicies.Include(v => v.VehiclePolicyVehicle).Include(x=> x.CustomerVehiclePolicy);
-		//    return View(await eFCContext.ToListAsync());
-		//}
-		
 		public async Task<IActionResult> Index(string sortOrder)
 		{
 			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -60,7 +53,6 @@ namespace FinalWorkshop.Controllers
 		    return View(await eFCContext.ToListAsync());
 	    }
 
-		// GET: VehiclePolicy/Details/5
 		public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -79,7 +71,6 @@ namespace FinalWorkshop.Controllers
             return View(vehiclePolicyModel);
         }
 
-        // GET: VehiclePolicy/Create
         public IActionResult Create()
         {
             ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "RegistrationNumber");
@@ -87,9 +78,6 @@ namespace FinalWorkshop.Controllers
             return View();
         }
 
-        // POST: VehiclePolicy/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Risk,StartTime,EndTime,VehicleModelID,CustomerModelID")] VehiclePolicyModel vehiclePolicyModel)
@@ -105,7 +93,6 @@ namespace FinalWorkshop.Controllers
 			return View(vehiclePolicyModel);
         }
 
-        // GET: VehiclePolicy/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,9 +111,6 @@ namespace FinalWorkshop.Controllers
 			return View(vehiclePolicyModel);
         }
 
-        // POST: VehiclePolicy/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Risk,StartTime,EndTime,VehicleModelID,CustomerModelID")] VehiclePolicyModel vehiclePolicyModel)
@@ -161,7 +145,6 @@ namespace FinalWorkshop.Controllers
 			return View(vehiclePolicyModel);
         }
 
-        // GET: VehiclePolicy/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -180,7 +163,6 @@ namespace FinalWorkshop.Controllers
             return View(vehiclePolicyModel);
         }
 
-        // POST: VehiclePolicy/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

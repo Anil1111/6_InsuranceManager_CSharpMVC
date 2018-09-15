@@ -36,7 +36,7 @@ namespace FinalWorkshop.Controllers
 			var eFCContext = _context.Vehicles.Where(x => x.CustomerVehicle.ID == id).Include(v => v.CustomerVehicle);
 			return View(await eFCContext.ToListAsync());
 		}
-		
+
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null)
@@ -76,7 +76,6 @@ namespace FinalWorkshop.Controllers
 			return View(vehicleModel);
 		}
 
-		// GET: Vehicle/Edit/5
 		public async Task<IActionResult> Edit(int? id)
 		{
 			if (id == null)

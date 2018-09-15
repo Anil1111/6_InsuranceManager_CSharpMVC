@@ -20,13 +20,6 @@ namespace FinalWorkshop.Controllers
 		{
 			_context = context;
 		}
-		//[HttpGet]
-		//public async Task<IActionResult> Index()
-		//{
-		//	return View(await _context.Customers.ToListAsync());
-		//}
-
-		// TESTY Sortowania!
 		public async Task<IActionResult> Index(string sortOrder)
 		{
 			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -49,7 +42,6 @@ namespace FinalWorkshop.Controllers
 			}
 			return View(await students.ToList());
 		}
-		// TESTY Sortowania!
 
 		[HttpPost]
 		public async Task<IActionResult> Index(string companyName, int? id)

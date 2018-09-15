@@ -38,7 +38,6 @@ namespace FinalWorkshop.Controllers
 			IdentityUser user = await UserManager.GetUserAsync(User);
 			return View(user);
 		}
-		// GET: /<controller>/
 		public IActionResult Index()
 		{
 			return View();
