@@ -1,8 +1,46 @@
-﻿<div style="text-align: center">
-    @if (!User.Identity.IsAuthenticated)
-    {
-    <a href="/Account/Login/" style="display: block">LOGOWANIE</a>
-    }
-    
-
-</div>
+﻿@if (!User.Identity.IsAuthenticated)
+{<div style="text-align: center">
+        <a href="/Account/Login/" style="display: block">LOGOWANIE</a>
+    </div>
+}
+else
+{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            footer {
+                height: 450px;
+                width: 100%; 
+                position:absolute;
+                bottom:0;
+            }
+            #map {
+                height: 400px;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <footer>
+            <h3>Mapka testowa - chcę zrobić odnośniki do lokalizacji poszczególnych klientów - wyzej będzie kalendarz, maile itp :)</h3>
+            <div id="map">
+                <script>
+                    function initMap() {
+                        var wroclaw = { lat: 51.07, lng: 17.01 };
+                        var map = new google.maps.Map(
+                            document.getElementById('map'),
+                            { zoom: 10, center: wroclaw });
+                        var marker = new google.maps.Marker({ position: wroclaw, map: map });
+                    }
+                </script>
+            </div>
+            <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3odB2blyXQte55vaaPkb0pYoPFt_zvAA&callback=initMap">
+            </script>
+        </footer>
+    </body>
+</html>
+}
