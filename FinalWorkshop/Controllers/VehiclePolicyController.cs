@@ -55,7 +55,8 @@ namespace FinalWorkshop.Controllers
 	    }
 	    public async Task<IActionResult> SpecificPolicyFromCustomerId(int id)
 	    {
-		    var eFCContext = _context.VehiclePolicies.Where(v => v.CustomerModelID == id).Include(v => v.VehiclePolicyVehicle).Include(x => x.CustomerVehiclePolicy);
+		    ViewBag.CustomerName = _context.Customers.Single(x=> x.ID == id).CompanyName;
+			var eFCContext = _context.VehiclePolicies.Where(v => v.CustomerModelID == id).Include(v => v.VehiclePolicyVehicle).Include(x => x.CustomerVehiclePolicy);
 		    return View(await eFCContext.ToListAsync());
 	    }
 
