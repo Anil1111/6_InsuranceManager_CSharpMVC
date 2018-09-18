@@ -28,29 +28,38 @@
             <th>
                 @Html.ActionLink("Last Updated", "Index", new { sortOrder = ViewBag.DateSortParm })
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayName("Email")
+            </th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateAdded)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateUpdate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-controller="VehiclePolicy" asp-action="SpecificPolicyFromCustomerId" asp-route-id="@item.ID">Policies</a> |
-                <a asp-controller="Vehicle" asp-action="SpecificVehicle" asp-route-id="@item.ID">Vehicles</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateAdded)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Email" asp-route-id="@item.Email">Send Email</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-controller="VehiclePolicy" asp-action="SpecificPolicyFromCustomerId" asp-route-id="@item.ID">Policies</a> |
+                    <a asp-controller="Vehicle" asp-action="SpecificVehicle" asp-route-id="@item.ID">Vehicles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -14,6 +14,8 @@ namespace FinalWorkshop.Models
 		public string CompanyName { get; set; }
 		public DateTime DateAdded { get; set; } 
 		public DateTime? DateUpdate { get; set; }
+		[EmailAddress]
+		public string Email { get; set; }
 		public ICollection<VehicleModel> Vehicles { get; set; }
 		public ICollection<VehiclePolicyModel> Policies { get; set; }
 

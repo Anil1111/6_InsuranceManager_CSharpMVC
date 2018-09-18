@@ -50,6 +50,11 @@ namespace FinalWorkshop.Controllers
 			return View(searchedCustomers);
 		}
 
+		public async Task<IActionResult> Email(string email)
+		{
+			return Ok("ok");
+		}
+
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null)
@@ -74,7 +79,7 @@ namespace FinalWorkshop.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("ID,CompanyName,DateAdded")] CustomerModel customerModel)
+		public async Task<IActionResult> Create([Bind("ID,CompanyName,DateAdded,Email")] CustomerModel customerModel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -102,7 +107,7 @@ namespace FinalWorkshop.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,DateAdded,DateUpdate")] CustomerModel customerModel)
+		public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,DateAdded,DateUpdate,Email")] CustomerModel customerModel)
 		{
 			if (id != customerModel.ID)
 			{
