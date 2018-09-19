@@ -1,0 +1,13 @@
+﻿@model FinalWorkshop.Models.CustomerModel
+
+<h2> Send Email</h2>
+
+<form method="post"
+      action="SendEmail">
+    <div class="container">
+        <span class="form-control-static"> Receiver: </span> <input class="form-control" type="text" name="receiver" value="@Model.Email" />
+        <span class="form-control-static"> Subject: </span> <input class="form-control" type="text" name="subject" />
+        <span class="form-control-static"> Message: </span><input class="form-control" type="text" name="msgText" />
+        <input class="btn btn-primary" type="submit" value="Send" />
+    </div>
+</form>

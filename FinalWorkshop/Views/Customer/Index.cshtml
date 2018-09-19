@@ -52,7 +52,7 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <a asp-action="Email" asp-route-id="@item.Email">Send Email</a> |
+                    <a asp-action="SendEmail" asp-route-id="@item.ID">Send Email</a> |
                     <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
                     <a asp-controller="VehiclePolicy" asp-action="SpecificPolicyFromCustomerId" asp-route-id="@item.ID">Policies</a> |

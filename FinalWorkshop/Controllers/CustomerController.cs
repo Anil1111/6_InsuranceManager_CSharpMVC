@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using FinalWorkshop.Context;
 using FinalWorkshop.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MailKit;
+using MailKit.Net.Smtp;
+using MimeKit;
+using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace FinalWorkshop.Controllers
 {
@@ -50,9 +56,34 @@ namespace FinalWorkshop.Controllers
 			return View(searchedCustomers);
 		}
 
-		public async Task<IActionResult> Email(string email)
+		public async Task<IActionResult> SendEmail(int? id)
 		{
-			return Ok("ok");
+			var customerModel = await _context.Customers.FindAsync(id);
+			return View(customerModel);
+		}
+		[HttpPost]
+		public IActionResult SendEmail(string receiver, string subject, string msgText)
+		{
+			var message = new MimeMessage();
+
+			message.From.Add(new MailboxAddress("PL", "COMPANY-MAIL@gmail.com"));
+			message.To.Add(new MailboxAddress(receiver, receiver));
+			message.Subject = subject;
+			message.Body = new TextPart("plain")
+			{
+				Text = msgText
+			};
+
+			using (var client = new SmtpClient())
+			{
+				client.Connect("smtp.gmail.com", 587, false); 
+				client.Authenticate("COMPANY-MAIL@gmail.com", "PASSWORD");
+				client.Send(message);
+				client.Disconnect(true);
+			}
+
+			return RedirectToAction(nameof(Index));
+
 		}
 
 		public async Task<IActionResult> Details(int? id)
@@ -161,8 +192,8 @@ namespace FinalWorkshop.Controllers
 			try
 			{
 				var customerModel = await _context.Customers.FindAsync(id);
-			_context.Customers.Remove(customerModel);
-	
+				_context.Customers.Remove(customerModel);
+
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
