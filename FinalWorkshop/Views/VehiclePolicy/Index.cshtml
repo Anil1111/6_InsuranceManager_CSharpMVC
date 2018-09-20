@@ -34,28 +34,63 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Risk)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
-            </tr>
+            if ((DateTime.Now - item.EndTime).TotalDays > 7)
+            {
+                var color = "green";
+
+                <tr style="background-color: @color">
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Risk)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+
+            }
+            else
+            {
+                var color = "red";
+
+                <tr style="background-color: @color">
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Risk)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
