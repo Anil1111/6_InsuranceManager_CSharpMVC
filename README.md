@@ -16,4 +16,5 @@
 <li> Made this app as Single Page Appliaction
 <li> Use other APIs like google maps, calendar
 <li> Calendar with planned events/meetings/calls.
+<li> Heavy refactor
 </ol>
