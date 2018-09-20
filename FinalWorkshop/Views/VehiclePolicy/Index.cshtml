@@ -38,27 +38,26 @@
             {
                 var color = "green";
 
-                <tr style="background-color: @color">
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Risk)
+                <tr >
+                    <td style="background-color: @color">
+                        <b> @Html.DisplayFor(modelItem => item.Risk)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(modelItem => item.StartTime)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(modelItem => item.EndTime)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)</b>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        <b>  <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |</b>
+                        <b> <a asp-action="Details" asp-route-id="@item.ID">Details</a> |</b>
+                        <b> <a asp-action="Delete" asp-route-id="@item.ID">Delete</a></b>
                     </td>
                 </tr>
 
@@ -67,27 +66,26 @@
             {
                 var color = "red";
 
-                <tr style="background-color: @color">
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Risk)
+                <tr>
+                    <td style="background-color: @color">
+                        <b> @Html.DisplayFor(modelItem => item.Risk)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(modelItem => item.StartTime)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(modelItem => item.EndTime)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)</b>
+                    </td>
+                    <td style="background-color: @color">
+                        <b>@Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)</b>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VehiclePolicyVehicle.RegistrationNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.CustomerVehiclePolicy.CompanyName)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        <b>  <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |</b>
+                        <b> <a asp-action="Details" asp-route-id="@item.ID">Details</a> |</b>
+                        <b> <a asp-action="Delete" asp-route-id="@item.ID">Delete</a></b>
                     </td>
                 </tr>
             }
