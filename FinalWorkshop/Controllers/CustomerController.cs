@@ -26,6 +26,7 @@ namespace FinalWorkshop.Controllers
 		{
 			_context = context;
 		}
+
 		public async Task<IActionResult> Index(string sortOrder)
 		{
 			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -61,6 +62,7 @@ namespace FinalWorkshop.Controllers
 			var customerModel = await _context.Customers.FindAsync(id);
 			return View(customerModel);
 		}
+
 		[HttpPost]
 		public IActionResult SendEmail(string receiver, string subject, string msgText)
 		{
@@ -69,6 +71,7 @@ namespace FinalWorkshop.Controllers
 			message.From.Add(new MailboxAddress("PL", "COMPANY-MAIL@gmail.com"));
 			message.To.Add(new MailboxAddress(receiver, receiver));
 			message.Subject = subject;
+
 			message.Body = new TextPart("plain")
 			{
 				Text = msgText
@@ -83,7 +86,6 @@ namespace FinalWorkshop.Controllers
 			}
 
 			return RedirectToAction(nameof(Index));
-
 		}
 
 		public async Task<IActionResult> Details(int? id)

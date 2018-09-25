@@ -13,6 +13,7 @@ namespace FinalWorkshop.Controllers
 		protected UserManager<IdentityUser> UserManager { get; }
 		protected SignInManager<IdentityUser> SignInManager { get; }
 		protected RoleManager<IdentityRole> RoleManager { get; }
+
 		public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
 		{
 			UserManager = userManager;
@@ -26,6 +27,7 @@ namespace FinalWorkshop.Controllers
 			await RoleManager.CreateAsync(ir);
 			return Content("Dodano Rolę");
 		}
+
 		public async Task<IActionResult> AddUserToRole()
 		{
 			IdentityUser user = await UserManager.GetUserAsync(User);
@@ -38,6 +40,7 @@ namespace FinalWorkshop.Controllers
 			IdentityUser user = await UserManager.GetUserAsync(User);
 			return View(user);
 		}
+
 		public IActionResult Index()
 		{
 			return View();
@@ -56,12 +59,14 @@ namespace FinalWorkshop.Controllers
 			{
 				var user = new IdentityUser(viewModel.Login) { Email = viewModel.Email };
 				var result = await UserManager.CreateAsync(user, viewModel.Password);
+
 				if (result.Succeeded)
 				{
 					await SignInManager.PasswordSignInAsync(viewModel.Login,
 						viewModel.Password, true, false);
 					return RedirectToAction("Index", "Main");
 				}
+
 				foreach (var error in result.Errors)
 				{
 					ModelState.AddModelError("", error.Description);
@@ -75,6 +80,7 @@ namespace FinalWorkshop.Controllers
 		{
 			return View();
 		}
+
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel viewModel)
 		{
@@ -82,6 +88,7 @@ namespace FinalWorkshop.Controllers
 			{
 				var result = await SignInManager.PasswordSignInAsync(viewModel.Login,
 					viewModel.Password, viewModel.RememberMe, false);
+
 				if (result.Succeeded)
 				{
 					return RedirectToAction("Index", "Main");
@@ -93,6 +100,7 @@ namespace FinalWorkshop.Controllers
 			}
 			return View(viewModel);
 		}
+
 		[HttpGet]
 		public async Task<IActionResult> LogOut()
 		{
