@@ -15,6 +15,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MailKit;
 using MailKit.Net.Smtp;
 using MimeKit;
+using MailService = FinalWorkshop.Services.MailService;
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 
 namespace FinalWorkshop.Controllers
@@ -22,10 +23,12 @@ namespace FinalWorkshop.Controllers
 	public class CustomerController : Controller
 	{
 		private readonly DatabaseManager _databaseManager;
+		private readonly MailService _mailService;
 
-		public CustomerController(DatabaseManager databaseManager)
+		public CustomerController(DatabaseManager databaseManager, MailService mailService)
 		{
 			_databaseManager = databaseManager;
+			_mailService = mailService;
 		}
 
 		public async Task<IActionResult> Index(string sortOrder)
@@ -65,33 +68,17 @@ namespace FinalWorkshop.Controllers
 		public async Task<IActionResult> SendEmail(int? id)
 		{
 			var customerModel = await _databaseManager.GetSpecificCustomer(id);
+
 			return View(customerModel);
 		}
 
-		//[HttpPost]
-		//public IActionResult SendEmail(string receiver, string subject, string msgText)
-		//{
-		//	var message = new MimeMessage();
+		[HttpPost]
+		public IActionResult SendEmail(string receiver, string subject, string msgText)
+		{
+			_mailService.SendEmail(receiver, subject, msgText);
 
-		//	message.From.Add(new MailboxAddress("PL", "COMPANY-MAIL@gmail.com"));
-		//	message.To.Add(new MailboxAddress(receiver, receiver));
-		//	message.Subject = subject;
-
-		//	message.Body = new TextPart("plain")
-		//	{
-		//		Text = msgText
-		//	};
-
-		//	using (var client = new SmtpClient())
-		//	{
-		//		client.Connect("smtp.gmail.com", 587, false); 
-		//		client.Authenticate("COMPANY-MAIL@gmail.com", "PASSWORD");
-		//		client.Send(message);
-		//		client.Disconnect(true);
-		//	}
-
-		//	return RedirectToAction(nameof(Index));
-		//}
+			return RedirectToAction(nameof(Index));
+		}
 
 		//public async Task<IActionResult> Details(int? id)
 		//{
@@ -110,10 +97,10 @@ namespace FinalWorkshop.Controllers
 		//	return View(customerModel);
 		//}
 
-		//public IActionResult Create()
-		//{
-		//	return View();
-		//}
+		public IActionResult Create()
+		{
+			return View();
+		}
 
 		//[HttpPost]
 		//[ValidateAntiForgeryToken]

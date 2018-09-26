@@ -34,6 +34,13 @@ namespace FinalWorkshop.Services
 			return specificCustomer;
 		}
 
+		public Task<CustomerModel> GetSpecificCustomer(int? id)
+		{
+			var specificCustomer = _context.Customers.FindAsync(id);
+
+			return specificCustomer;
+		}
+
 
 	}
 }
