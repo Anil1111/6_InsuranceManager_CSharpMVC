@@ -41,6 +41,23 @@ namespace FinalWorkshop.Services
 			return specificCustomer;
 		}
 
+		public async void AddCustomer(CustomerModel customerModel)
+		{
+			_context.Add(customerModel);
+			await _context.SaveChangesAsync();
+		}
+
+		public async void UpdateCustomer(CustomerModel customerModel)
+		{
+			_context.Update(customerModel);
+			await _context.SaveChangesAsync();
+		}
+
+		public async void DeleteCustomer(CustomerModel customerModel)
+		{
+			_context.Remove(customerModel);
+			await _context.SaveChangesAsync();
+		}
 
 	}
 }

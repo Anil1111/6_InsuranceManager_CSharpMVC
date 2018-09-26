@@ -80,128 +80,122 @@ namespace FinalWorkshop.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		//public async Task<IActionResult> Details(int? id)
-		//{
-		//	if (id == null)
-		//	{
-		//		return NotFound();
-		//	}
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-		//	var customerModel = await _context.Customers
-		//		.FirstOrDefaultAsync(m => m.ID == id);
-		//	if (customerModel == null)
-		//	{
-		//		return NotFound();
-		//	}
+			var customerModel = await _databaseManager.GetSpecificCustomer(id);
 
-		//	return View(customerModel);
-		//}
+			if (customerModel == null)
+			{
+				return NotFound();
+			}
+
+			return View(customerModel);
+		}
 
 		public IActionResult Create()
 		{
 			return View();
 		}
 
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public async Task<IActionResult> Create([Bind("ID,CompanyName,DateAdded,Email")] CustomerModel customerModel)
-		//{
-		//	if (ModelState.IsValid)
-		//	{
-		//		_context.Add(customerModel);
-		//		await _context.SaveChangesAsync();
-		//		return RedirectToAction(nameof(Index));
-		//	}
-		//	return View(customerModel);
-		//}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("ID,CompanyName,DateAdded,Email")] CustomerModel customerModel)
+		{
+			if (ModelState.IsValid)
+			{
+				_databaseManager.AddCustomer(customerModel);
+				return RedirectToAction(nameof(Index));
+			}
+			return View(customerModel);
+		}
 
-		//public async Task<IActionResult> Edit(int? id)
-		//{
-		//	if (id == null)
-		//	{
-		//		return NotFound();
-		//	}
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-		//	var customerModel = await _context.Customers.FindAsync(id);
-		//	if (customerModel == null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	return View(customerModel);
-		//}
+			var customerModel = await _databaseManager.GetSpecificCustomer(id);
 
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,DateAdded,DateUpdate,Email")] CustomerModel customerModel)
-		//{
-		//	if (id != customerModel.ID)
-		//	{
-		//		return NotFound();
-		//	}
+			if (customerModel == null)
+			{
+				return NotFound();
+			}
+			return View(customerModel);
+		}
 
-		//	if (ModelState.IsValid)
-		//	{
-		//		try
-		//		{
-		//			_context.Update(customerModel);
-		//			await _context.SaveChangesAsync();
-		//		}
-		//		catch (DbUpdateConcurrencyException)
-		//		{
-		//			if (!CustomerModelExists(customerModel.ID))
-		//			{
-		//				return NotFound();
-		//			}
-		//			else
-		//			{
-		//				throw;
-		//			}
-		//		}
-		//		return RedirectToAction(nameof(Index));
-		//	}
-		//	return View(customerModel);
-		//}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,DateAdded,DateUpdate,Email")] CustomerModel customerModel)
+		{
+			if (id != customerModel.ID)
+			{
+				return NotFound();
+			}
 
-		//public async Task<IActionResult> Delete(int? id)
-		//{
-		//	if (id == null)
-		//	{
-		//		return NotFound();
-		//	}
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_databaseManager.UpdateCustomer(customerModel);
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!_databaseManager.CustomerModelExists(customerModel.ID))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			return View(customerModel);
+		}
 
-		//	var customerModel = await _context.Customers
-		//		.FirstOrDefaultAsync(m => m.ID == id);
-		//	if (customerModel == null)
-		//	{
-		//		return NotFound();
-		//	}
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-		//	return View(customerModel);
-		//}
+			var customerModel = await _databaseManager.GetSpecificCustomer(id);
 
-		//[HttpPost, ActionName("Delete")]
-		//[ValidateAntiForgeryToken]
-		//public async Task<IActionResult> DeleteConfirmed(int id)
-		//{
-		//	try
-		//	{
-		//		var customerModel = await _context.Customers.FindAsync(id);
-		//		_context.Customers.Remove(customerModel);
+			if (customerModel == null)
+			{
+				return NotFound();
+			}
 
-		//		await _context.SaveChangesAsync();
-		//		return RedirectToAction(nameof(Index));
-		//	}
-		//	catch (Exception e)
-		//	{
-		//		TempData["1"] = "Nie można usunąć klienta. Musisz usunąć wcześniej pojazdy/polisy do niego przypisane";
-		//		return RedirectToAction(nameof(Index));
-		//	}
-		//}
+			return View(customerModel);
+		}
 
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			try
+			{
+				var customerModel = await _databaseManager.GetSpecificCustomer(id);
 
-		//private bool CustomerModelExists(int id)
-		//{
-		//	return _databaseManager.CustomerModelExists(id);
-		//}
+				_databaseManager.DeleteCustomer(customerModel);
+
+				return RedirectToAction(nameof(Index));
+			}
+			catch (Exception e)
+			{
+				TempData["1"] = "Cannot Remove Client. Delete vehicles/policies which it has connected";
+
+				return RedirectToAction(nameof(Index));
+			}
+		}
 	}
 }
