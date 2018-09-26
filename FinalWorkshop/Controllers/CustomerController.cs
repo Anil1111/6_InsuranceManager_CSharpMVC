@@ -108,7 +108,7 @@ namespace FinalWorkshop.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_databaseManager.AddCustomer(customerModel);
+				await _databaseManager.AddCustomer(customerModel);
 				return RedirectToAction(nameof(Index));
 			}
 			return View(customerModel);
@@ -143,7 +143,7 @@ namespace FinalWorkshop.Controllers
 			{
 				try
 				{
-					_databaseManager.UpdateCustomer(customerModel);
+					await _databaseManager.UpdateCustomer(customerModel);
 				}
 				catch (DbUpdateConcurrencyException)
 				{
@@ -186,7 +186,7 @@ namespace FinalWorkshop.Controllers
 			{
 				var customerModel = await _databaseManager.GetSpecificCustomer(id);
 
-				_databaseManager.DeleteCustomer(customerModel);
+				await _databaseManager.DeleteCustomer(customerModel);
 
 				return RedirectToAction(nameof(Index));
 			}
