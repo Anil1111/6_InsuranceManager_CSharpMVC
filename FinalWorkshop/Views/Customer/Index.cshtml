@@ -5,6 +5,14 @@
 }
 
 <h2>All Customers</h2>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="page"><a href="~/main/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">All Customers</li>
+    </ol>
+</nav>
+
 <div>
     <p>Search Customer:</p>
     <form asp-action="Index" method="post">
@@ -52,12 +60,12 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
-                    <a asp-action="SendEmail" asp-route-id="@item.ID">Send Email</a> |
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-controller="VehiclePolicy" asp-action="SpecificPolicyFromCustomerId" asp-route-id="@item.ID">Policies</a> |
-                    <a asp-controller="Vehicle" asp-action="SpecificVehicle" asp-route-id="@item.ID">Vehicles</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    <a asp-action="SendEmail" asp-route-id="@item.ID" class="btn btn-success">Send Email</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-secondary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-secondary">Details</a> |
+                    <a asp-controller="VehiclePolicy" asp-action="SpecificPolicyFromCustomerId" asp-route-id="@item.ID" class="btn btn-primary">Policies</a> |
+                    <a asp-controller="Vehicle" asp-action="SpecificVehicle" asp-route-id="@item.ID" class="btn btn-primary">Vehicles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

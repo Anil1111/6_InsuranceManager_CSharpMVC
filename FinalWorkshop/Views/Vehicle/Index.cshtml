@@ -5,6 +5,14 @@
 }
 
 <h2>All Vehicles</h2>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" aria-current="page"><a href="~/main/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">All Vehicles</li>
+    </ol>
+</nav>
+
 <p>Search Vehicle:</p>
 <form asp-action="Index" method="post">
     <input type="text" name="regNumber" value="" placeholder="REGNR" />

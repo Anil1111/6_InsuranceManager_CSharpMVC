@@ -8,6 +8,18 @@
     Policies of client: @ViewBag.CustomerName
 </h2>
 
+<div class="row">
+    <div class="btn-group btn-breadcrumb">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page"><a href="~/main/">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page"><a href="~/customer/">All Customers</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Policies of Customer @ViewBag.CustomerName</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>

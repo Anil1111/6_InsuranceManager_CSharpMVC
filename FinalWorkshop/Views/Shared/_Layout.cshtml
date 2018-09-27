@@ -4,19 +4,24 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <link href="/_style.css" rel="stylesheet" type="text/css" />
+
+
+
+
     <title>@ViewBag.Title</title>
 </head>
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-    <ul>
+    <ul id="navbar">
 
-        <li><a asp-controller="Main" asp-action="Index">Main</a></li>
-        <li><a asp-controller="Customer" asp-action="Index">Customers</a></li>
-        <li><a asp-controller="Vehicle" asp-action="Index">Vehicles</a></li>
-        <li><a asp-controller="VehiclePolicy" asp-action="Index">Vehicle Policies</a></li>
-        <li style="float: right"><a asp-controller="Account" asp-action="Logout">[@User.Identity.Name] Logout</a></li>
+        <li id="list"><a asp-controller="Main" asp-action="Index">Main</a></li>
+        <li id="list"><a asp-controller="Customer" asp-action="Index">Customers</a></li>
+        <li id="list"><a asp-controller="Vehicle" asp-action="Index">Vehicles</a></li>
+        <li id="list"><a asp-controller="VehiclePolicy" asp-action="Index">Vehicle Policies</a></li>
+        <li id ="list"style="float: right"><a asp-controller="Account" asp-action="Logout">[@User.Identity.Name] Logout</a></li>
     </ul>
     }
     @RenderBody()

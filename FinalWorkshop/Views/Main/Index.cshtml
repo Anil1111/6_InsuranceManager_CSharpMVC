@@ -1,6 +1,7 @@
 ﻿@if (!User.Identity.IsAuthenticated)
 {<div style="text-align: center">
         <a href="/Account/Login/" style="display: block">LOGOWANIE</a>
+        <a href="/Account/Register/" style="display: block">REJESTRACJA</a>
     </div>
 }
 else
@@ -11,10 +12,11 @@ else
         <style>
             footer {
                 height: 450px;
-                width: 100%; 
-                position:absolute;
-                bottom:0;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
             }
+
             #map {
                 height: 400px;
                 width: 100%;
@@ -24,6 +26,16 @@ else
         </style>
     </head>
     <body>
+        <h2>Home</h2>
+        <div class="row">
+            <div class="btn-group btn-breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">Home</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
         <footer>
             <h3>Mapka testowa - chcę zrobić odnośniki do lokalizacji poszczególnych klientów - wyzej będzie kalendarz, maile itp :)</h3>
             <div id="map">

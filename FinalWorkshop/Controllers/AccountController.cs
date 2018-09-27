@@ -95,7 +95,7 @@ namespace FinalWorkshop.Controllers
 				}
 				else
 				{
-					ModelState.AddModelError("", "Niepoprawny Login lub Hasło");
+					ModelState.AddModelError("x","Niepoprawny Login lub Hasło");
 				}
 			}
 			return View(viewModel);
