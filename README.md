@@ -4,9 +4,7 @@
 
 
 #To run:
-  1.Use SQL script to creata Database or use Database migration in Solution
-  2.Start Debuggint in solution
-  3.To create account go to: /Account/Register and create one (There is no button for that because account creating will implemented for Admin account only)
+  App is hosted temporarly at https://www.patrykloks.pl - Just create random account ("Rejestracja" with fake email, and log in)
   
 #TODO:
 <ol>
