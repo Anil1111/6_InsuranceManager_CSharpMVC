@@ -68,6 +68,7 @@ namespace FinalWorkshop.Controllers
 			var vehiclePolicyModel = await _context.VehiclePolicies
 				.Include(v => v.VehiclePolicyVehicle)
 				.FirstOrDefaultAsync(m => m.ID == id);
+
 			if (vehiclePolicyModel == null)
 			{
 				return NotFound();
@@ -80,6 +81,7 @@ namespace FinalWorkshop.Controllers
 		{
 			ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "RegistrationNumber");
 			ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "CompanyName");
+
 			return View();
 		}
 
@@ -93,6 +95,7 @@ namespace FinalWorkshop.Controllers
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
+
 			ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID", vehiclePolicyModel.VehicleModelID);
 			ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID", vehiclePolicyModel.CustomerModelID);
 
@@ -107,6 +110,7 @@ namespace FinalWorkshop.Controllers
 			}
 
 			var vehiclePolicyModel = await _context.VehiclePolicies.FindAsync(id);
+
 			if (vehiclePolicyModel == null)
 			{
 				return NotFound();
@@ -147,6 +151,7 @@ namespace FinalWorkshop.Controllers
 				}
 				return RedirectToAction(nameof(Index));
 			}
+
 			ViewData["VehicleModelID"] = new SelectList(_context.Vehicles, "ID", "ID", vehiclePolicyModel.VehicleModelID);
 			ViewData["CustomerModelID"] = new SelectList(_context.Customers, "ID", "ID", vehiclePolicyModel.CustomerModelID);
 
@@ -176,8 +181,10 @@ namespace FinalWorkshop.Controllers
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			var vehiclePolicyModel = await _context.VehiclePolicies.FindAsync(id);
+
 			_context.VehiclePolicies.Remove(vehiclePolicyModel);
 			await _context.SaveChangesAsync();
+
 			return RedirectToAction(nameof(Index));
 		}
 

@@ -22,12 +22,12 @@ namespace FinalWorkshop.Controllers
 {
 	public class CustomerController : Controller
 	{
-		private readonly DatabaseManager _databaseManager;
+		private readonly CustomerDbService _customerDbService;
 		private readonly MailService _mailService;
 
-		public CustomerController(DatabaseManager databaseManager, MailService mailService)
+		public CustomerController(CustomerDbService customerDbService, MailService mailService)
 		{
-			_databaseManager = databaseManager;
+			_customerDbService = customerDbService;
 			_mailService = mailService;
 		}
 
@@ -36,7 +36,7 @@ namespace FinalWorkshop.Controllers
 			ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 			ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
-			var customers = _databaseManager.GetAllCustomers();
+			var customers = _customerDbService.GetAllCustomers();
 
 			switch (sortOrder)
 			{
@@ -60,16 +60,16 @@ namespace FinalWorkshop.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Index(string companyName, int? id)
 		{
-			var searchedCustomers = _databaseManager.GetSpecificCustomer(companyName);
+			var searchedCustomers = _customerDbService.GetSpecificCustomer(companyName);
 
 			return View(await searchedCustomers.ToList());
 		}
 
 		public async Task<IActionResult> SendEmail(int? id)
 		{
-			var customerModel = await _databaseManager.GetSpecificCustomer(id);
+			var customer = await _customerDbService.GetSpecificCustomer(id);
 
-			return View(customerModel);
+			return View(customer);
 		}
 
 		[HttpPost]
@@ -87,7 +87,7 @@ namespace FinalWorkshop.Controllers
 				return NotFound();
 			}
 
-			var customerModel = await _databaseManager.GetSpecificCustomer(id);
+			var customerModel = await _customerDbService.GetSpecificCustomer(id);
 
 			if (customerModel == null)
 			{
@@ -108,7 +108,7 @@ namespace FinalWorkshop.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				await _databaseManager.AddCustomer(customerModel);
+				await _customerDbService.AddCustomer(customerModel);
 				return RedirectToAction(nameof(Index));
 			}
 			return View(customerModel);
@@ -121,12 +121,13 @@ namespace FinalWorkshop.Controllers
 				return NotFound();
 			}
 
-			var customerModel = await _databaseManager.GetSpecificCustomer(id);
+			var customerModel = await _customerDbService.GetSpecificCustomer(id);
 
 			if (customerModel == null)
 			{
 				return NotFound();
 			}
+
 			return View(customerModel);
 		}
 
@@ -143,11 +144,11 @@ namespace FinalWorkshop.Controllers
 			{
 				try
 				{
-					await _databaseManager.UpdateCustomer(customerModel);
+					await _customerDbService.UpdateCustomer(customerModel);
 				}
 				catch (DbUpdateConcurrencyException)
 				{
-					if (!_databaseManager.CustomerModelExists(customerModel.ID))
+					if (!_customerDbService.CustomerModelExists(customerModel.ID))
 					{
 						return NotFound();
 					}
@@ -168,7 +169,7 @@ namespace FinalWorkshop.Controllers
 				return NotFound();
 			}
 
-			var customerModel = await _databaseManager.GetSpecificCustomer(id);
+			var customerModel = await _customerDbService.GetSpecificCustomer(id);
 
 			if (customerModel == null)
 			{
@@ -184,9 +185,9 @@ namespace FinalWorkshop.Controllers
 		{
 			try
 			{
-				var customerModel = await _databaseManager.GetSpecificCustomer(id);
+				var customerModel = await _customerDbService.GetSpecificCustomer(id);
 
-				await _databaseManager.DeleteCustomer(customerModel);
+				await _customerDbService.DeleteCustomer(customerModel);
 
 				return RedirectToAction(nameof(Index));
 			}

@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinalWorkshop.Services
 {
-	public class DatabaseManager
+	public class CustomerDbService
 	{
 		private readonly EFCContext _context;
 
-		public DatabaseManager(EFCContext context)
+		public CustomerDbService(EFCContext context)
 		{
 			_context = context;
 		}

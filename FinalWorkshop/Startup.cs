@@ -37,7 +37,7 @@ namespace FinalWorkshop
 
 			services.AddIdentity<IdentityUser, IdentityRole>()
 				.AddEntityFrameworkStores<EFCContext>();
-			services.AddTransient<DatabaseManager>();
+			services.AddTransient<CustomerDbService>();
 			services.AddTransient<MailService>();
 			services.AddMvc();
 		}
