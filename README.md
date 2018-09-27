@@ -1,6 +1,6 @@
 # Insurance-Manager
 
-#App that helps managing Insurance Policies
+#App that helps manage Insurance Policies
 
 
 #To run:
